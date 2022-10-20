@@ -29,7 +29,7 @@ class RipCommunication(Device):
     def __init__(self, index: int, number_of_devices: int, medium: Medium):
         super().__init__(index, number_of_devices, medium)
         
-        self.neighbors = [] # generate an appropriate list
+        self.neighbors = [(self.index() - 1) % number_of_devices, (self.index() + 1) % number_of_devices] # generate an appropriate list
 
         self.routing_table = dict()
 
@@ -70,8 +70,27 @@ class RipCommunication(Device):
             self.medium().wait_for_next_round()
 
     def merge_tables(self, src, table):
+        #print(src)
         # return None if the table does not change
-        pass
+
+        changed = False
+
+        for i, rr in table.items():
+            #rr = table[i]
+            if rr[0] != src:
+                rr = (src, rr[1]+1);
+                if i not in self.routing_table:
+                    self.routing_table[i] = rr
+                    changed = True
+                else:
+                    for ii, rl in self.routing_table.items():
+                        rl = self.routing_table[ii]
+                        if i==ii and (rr[1] < rl[1] or rl[0] == src):
+                            changed = rr[0] != rl[0] or rr[1] != rl[1]
+                            self.routing_table[ii] = rr
+            #table[i] = rr
+        
+        return self.routing_table if changed else None
 
 
     def print_result(self):

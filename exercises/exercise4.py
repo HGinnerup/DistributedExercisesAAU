@@ -345,6 +345,8 @@ class SuzukiKasami(WorkerDevice):
 
     def __init__(self, index: int, number_of_devices: int, medium: Medium):
         super().__init__(index, number_of_devices, medium)
+
+        
         self._rn = [0 for _ in range(0, number_of_devices)]
         self._waiting = []
         self._token = None

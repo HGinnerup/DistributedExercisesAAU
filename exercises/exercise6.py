@@ -1,3 +1,4 @@
+import collections
 import math
 import random
 
@@ -147,9 +148,39 @@ class King(Device):
             self._application = application
         else:
             self._application = SimpleRequester()
+        
+        self.f = math.floor(number_of_devices / 5) # Faulty units
+        self.v = "Cheese" # Value of some sort
+
+    def b_multicast(self, message: MessageStub):
+        message.source = self.index()
+        for i in self.medium().ids():
+            message.destination = i
+            self.medium().send(message)
+
 
     def run(self):
-        pass
+        
+        # p_i sets its own v to some value
+        for i in range(0, self.f):
+            # round 1
+            self.b_multicast(Propose(self.v))
+            self.medium().wait_for_next_round()
+            from_others = [m.value() for m in self.medium().receive_all()]
+
+            (commonV, highestCount) = collections.Counter(from_others).most_common()
+            self.v = commonV
+
+            # round 2
+            if self.index() == 0:
+                self.b_multicast(Propose(self.v))
+            
+            self.medium().wait_for_next_round()
+            v_k = self.medium().receive().value()
+            if highestCount <= (self.number_of_devices / 2) + self.f:
+                self.v = v_k
+
+
 
     def print_result(self):
         pass

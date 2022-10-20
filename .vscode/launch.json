@@ -1,0 +1,36 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Exercise Overlay",
+            "type": "python",
+            "request": "launch",
+            "program": "exercise_runner_overlay.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--lecture", "2",
+                "--algorithm", "RipCommunication",
+                "--type", "stepping",
+                "--devices", "10",
+            ]
+        },
+        {
+            "name": "Exercise Runner",
+            "type": "python",
+            "request": "launch",
+            "program": "exercise_runner.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--lecture", "4",
+                "--algorithm", "SuzukiKasami",
+                "--type", "sync",
+                "--devices", "10",
+            ]
+        }
+    ]
+}
