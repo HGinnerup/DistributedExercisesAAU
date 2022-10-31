@@ -26,10 +26,10 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "--lecture", "4",
-                "--algorithm", "SuzukiKasami",
-                "--type", "sync",
-                "--devices", "10",
+                "--lecture", "10",
+                "--algorithm", "BlockchainNetwork",
+                "--type", "async",
+                "--devices", "4",
             ]
         }
     ]

@@ -57,7 +57,7 @@ class Blockchain():
             return None
         return self.chain[-1]
 
-    difficulty = 4
+    difficulty = 2
     # TODO: set difficulty to 2, to have many more forks.
     # TODO: understand why having lower difficulty leads to more forks.
     def proof_of_work(self, block):
@@ -161,7 +161,12 @@ class BlockchainMiner(Device):
             # TODO: design a logic to respect the "longest chain" rule
             # TODO: implement it
             # HINT: consider what a fork is, that forks can happen, and what to do in that case
-            pass
+            chain_in = ingoing.chain
+            chain_current = self.blockchain.chain
+
+            if len(chain_in) > len(chain_current):
+                self.blockchain.chain = chain_in
+
         elif isinstance(ingoing, BlockchainRequestMessage):
             # this is used to send the blockchain data to a client requesting them
             message = BlockchainMessage(self.index(), ingoing.source, self.blockchain.chain)
